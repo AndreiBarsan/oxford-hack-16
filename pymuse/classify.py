@@ -13,7 +13,6 @@ import os
 import pickle
 import sys
 
-FEATURE_COUNT = 516
 PICKLE_FPATH = os.path.join('.', 'model-lr.pkl')
 
 
@@ -25,10 +24,10 @@ def main(argv):
     result = argv[1]
     res_vec = [float(part) for part in result.split(", ")]
 
-    if len(res_vec) != FEATURE_COUNT:
-        raise ValueError("Expected {0}-d vector, but got {1}-d one.".format(
-            FEATURE_COUNT, len(res_vec)
-        ))
+    # if len(res_vec) != FEATURE_COUNT:
+    #     raise ValueError("Expected {0}-d vector, but got {1}-d one.".format(
+    #         FEATURE_COUNT, len(res_vec)
+    #     ))
 
     with open(PICKLE_FPATH, 'rb') as f:
         clf = pickle.load(f)
