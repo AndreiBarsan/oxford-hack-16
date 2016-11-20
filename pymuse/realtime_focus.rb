@@ -77,11 +77,15 @@ class Frame
 	end
 
 	def push(idx, data)
-		@data[idx] = data
+		if @data[idx].nil?
+			@data[idx] = data
+		else
+			@data[idx + 4] = data
+		end
 	end
 
 	def complete
-		@data.compact.size == 4
+		@data.compact.size == 8
 	end
 
 	def linearize
