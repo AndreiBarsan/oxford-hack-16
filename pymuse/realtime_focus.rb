@@ -19,15 +19,14 @@ class Array
 end
 
 class CircularBuffer
-	Size = 20
-
-	def initialize
+	def initialize(size)
+		@size = size
 		@data = []
 	end
 
 	def <<(point)
 		@data.push(point)
-		@data.shift if data.size > Size
+		@data.shift if data.size > @size
 	end
 
 	def data
@@ -39,8 +38,8 @@ class CircularBuffer
 	end
 end
 
-@last_topics = CircularBuffer.new
-@datapoints = CircularBuffer.new
+@last_topics = CircularBuffer.new(1)
+@datapoints = CircularBuffer.new(30)
 
 def classify(fft_set)
 	`./classify.py "#{fft_set.join(", ")}"`.to_i.tap { |_| puts "class: #{_}" }
@@ -95,7 +94,7 @@ def add_observation(idx, data)
 end
 
 OSC.run do
-	server = Server.new 9090
+	server = Server.new 9091
 
 	server.add_pattern '/muse/elements/raw_fft0' do |_, *fft|
 		add_observation(0, fft)
