@@ -64,7 +64,7 @@ end
 @datapoints = CircularBuffer.new
 
 def classify(fft_set)
-	`./classify.py "#{fft_set.join(", ")}"`.to_i
+	`./classify.py "#{fft_set.join(", ")}"`.to_i.tap { |_| puts "class: #{_}" }
 end
 
 class Frame
