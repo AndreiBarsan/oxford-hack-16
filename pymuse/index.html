@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FocusTrackkkr</title>
+	<!-- Plotly.js -->
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<!-- Plotly.js -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+
+<body>
+
+	<div id="plot_container" style="width: 75%; height: 500px; margin: 0 auto;"></div>
+	<script>
+		var data = [
+		  {
+		    x: [],
+		    y: [],
+		    type: 'scatter'
+		  }
+		];
+
+		Plotly.newPlot(plot_container, data);
+
+		function reloadData() {
+			$.ajax('data.json').done(function(data) {
+				console.log(data);
+				plot_container.data[0].x = data.x;
+				plot_container.data[0].y = data.y;
+				Plotly.redraw(plot_container);
+
+				setTimeout(reloadData, 250);
+			});
+		}
+
+		reloadData();
+	</script>
+</body>
+</html>
