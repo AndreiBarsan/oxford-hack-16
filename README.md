@@ -1,6 +1,7 @@
 # OxfordHack 2016 Project: Computer Control using the Muse Headband
 
 Team: **potato**
+
 Members: Andrei Barsan, Andrej Hoos, Pavel Kalvoda
 
 For this project, we experimented leveraging the Muse Headband, which tracks
