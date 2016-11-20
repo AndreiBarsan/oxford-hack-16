@@ -8,29 +8,8 @@ require 'json'
 include OSC
 
 def render(points)
-	IO.write('out.html', '<!DOCTYPE html><html><head>
-<title>FocusTrackkkr</title>
-  <!-- Plotly.js -->
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-</head>
-
-<body>
-
-  <div id="myDiv" style="width: 480px; height: 400px;"><!-- Plotly chart will be drawn inside this DIV --></div>
-<script>
-var data = [
-  {
-    x: ' + JSON.generate(points.map { |p| p[:time] }) + ',
-    y: ' + JSON.generate(points.map { |p| p[:val] }) + ',
-    type: \'scatter\'
-  }
-];
-
-Plotly.newPlot(\'myDiv\', data);
-</script>
-</body>
-</html>')
+	data = {x: points.map { |p| p[:time] }, y: points.map { |p| p[:val] }}
+	IO.write('data.json', JSON.generate(data))
 end
 
 class Array
@@ -102,7 +81,6 @@ def add_observation(idx, data)
 		render(@datapoints.data)
 	end
 end
-
 
 OSC.run do
 	server = Server.new 9090
