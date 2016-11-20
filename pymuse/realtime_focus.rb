@@ -59,12 +59,20 @@ class Frame
 		if @data[idx].nil?
 			@data[idx] = data
 		else
-			@data[idx + 4] = data
+			if @data[idx + 4].nil?
+				@data[idx + 4] = data
+			else
+				if @data[idx + 8].nil?
+					@data[idx + 8] = data
+				else
+						@data[idx + 12] = data
+				end
+			end
 		end
 	end
 
 	def complete
-		@data.compact.size == 8
+		@data.compact.size == 16
 	end
 
 	def linearize
