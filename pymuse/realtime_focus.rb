@@ -3,8 +3,35 @@
 require 'rubygems'
 require 'ruby-osc'
 require 'open3'
+require 'json'
 
 include OSC
+
+def render(points)
+	IO.write('out.html', '<!DOCTYPE html><html><head>
+<title>FocusTrackkkr</title>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id="myDiv" style="width: 480px; height: 400px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+<script>
+var data = [
+  {
+    x: ' + JSON.generate(points.map { |p| p[:time] }) + ',
+    y: ' + JSON.generate(points.map { |p| p[:val] }) + ',
+    type: \'scatter\'
+  }
+];
+
+Plotly.newPlot(\'myDiv\', data);
+</script>
+</body>
+</html>')
+end
 
 class Array
 	def mode
@@ -34,6 +61,7 @@ class CircularBuffer
 end
 
 @last_topics = CircularBuffer.new
+@datapoints = CircularBuffer.new
 
 def classify(fft_set)
 	`./classify.py "#{fft_set.join(", ")}"`.to_i
@@ -61,7 +89,7 @@ class Frame
 	end
 end
 
-
+render([])
 @last_frame = Frame.new
 
 def add_observation(idx, data)
@@ -70,6 +98,8 @@ def add_observation(idx, data)
 		@last_topics << classify(@last_frame.linearize)
 		@last_frame.reset
 		puts @last_topics.majority
+		@datapoints << { val: @last_topics.majority, time: Time.now }
+		render(@datapoints.data)
 	end
 end
 
