@@ -23,7 +23,7 @@
 		Plotly.newPlot(plot_container, data);
 
 		function reloadData() {
-			$.ajax('data.json').done(function(data) {
+			$.getJSON('data.json').done(function(data) {
 				console.log(data);
 				plot_container.data[0].x = data.x;
 				plot_container.data[0].y = data.y;
