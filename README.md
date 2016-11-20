@@ -17,3 +17,7 @@ allow users to interact with the computer using head movements (by translating
 head movements to mouse movements). This currently
 works quite well. The code for this application resides in the `mouse/`
 directory, and only supports OS X at the moment.
+
+The raw data should be saved in the 'recordings/' folder (child of the project
+root). The data used during the hackathon for data exploration are not included
+since they take up roughly 0.5Gb.
